@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-900: #0B1B3A;
+  --color-navy-800: #122A55;
+  --color-navy-700: #1B3A73;
+
+  --color-gold-500: #D4A62A;
+  --color-gold-400: #E8C158;
+  --color-gold-100: #FBF1D8;
+
+  --color-ink-900: #141821;
+  --color-ink-600: #4C5566;
+  --color-ink-300: #98A2B3;
+
+  --color-surface-0: #FFFFFF;
+  --color-surface-1: #F5F7FA;
+  --color-surface-2: #EDEFF3;
+  --color-border-custom: #DFE3EA;
+
+  --color-success-custom: #1E8E5A;
+  --color-warning-custom: #C77B15;
+  --color-danger-custom: #C0362C;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Poppins', 'Sora', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface-0);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom Utilities for Benzene Electricals Design System */
+
+/* Circuit Pattern SVG Background Overlay */
+.bg-circuit-pattern {
+  background-image: radial-gradient(rgba(212, 166, 42, 0.15) 1px, transparent 1px),
+                    radial-gradient(rgba(18, 42, 85, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+.bg-circuit-lines {
+  background-image: repeating-linear-gradient(45deg, rgba(212,166,42,0.03) 0, rgba(212,166,42,0.03) 1px, transparent 0, transparent 50px);
+}
+
+/* Hero Gradient */
+.bg-hero-navy {
+  background: linear-gradient(135deg, #0B1B3A 0%, #122A55 55%, #1B3A73 100%);
+}
+
+/* Metallic Gold Text */
+.text-metallic-gold {
+  background: linear-gradient(180deg, #F3D374 0%, #D4A62A 50%, #9C7714 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gold Glow Hover */
+.gold-glow {
+  transition: all 0.2s ease-in-out;
+}
+.gold-glow:hover {
+  box-shadow: 0 0 20px rgba(212, 166, 42, 0.35);
+}
+
+/* Pulse animation for stock dots */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.92); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #EDEFF3;
+}
+::-webkit-scrollbar-thumb {
+  background: #1B3A73;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4A62A;
+}
