@@ -117,7 +117,7 @@ export default function App() {
           }}
         />
 
-        {/* Krykard Care Support & Client Logo Wall */}
+        {/* Benzene Electricals Support & Client Logo Wall */}
         <TrustSection />
       </main>
 

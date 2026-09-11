@@ -42,7 +42,7 @@ export default function TrustSection() {
           <div className="grid lg:grid-cols-12 gap-8 items-center relative z-10">
             <div className="lg:col-span-8 space-y-4">
               <span className="text-xs font-mono font-bold text-gold-400 uppercase tracking-widest">
-                BENZENE & KRYKARD CARE PROGRAM
+                BENZENE ELECTRICALS PROGRAM
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold font-display">
                 Factory-Trained Engineers & Pan-India Calibration Support
@@ -75,7 +75,7 @@ export default function TrustSection() {
                 Rated by 1,200+ Industrial Auditing Engineers Across India
               </div>
               <a
-                href="mailto:service@benzene-electricals.com"
+                href="mailto:sheefa@acrasia.in"
                 className="inline-block w-full bg-gold-500 hover:bg-gold-400 text-navy-900 font-bold text-xs py-2.5 rounded-lg transition-colors shadow-sm"
               >
                 Request Calibration / Support

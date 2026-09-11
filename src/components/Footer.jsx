@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Send, ShieldCheck, FileText, ExternalLink, QrCode } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, ShieldCheck, FileText, ExternalLink, QrCode, Loader2 } from 'lucide-react';
 
 export default function Footer({ onNavigateSection, setIsQuoteModalOpen }) {
   const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (newsletterEmail.trim()) {
-      setSubscribed(true);
+    if (!newsletterEmail.trim()) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'newsletter',
+          email: newsletterEmail
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setSubscribed(true);
+      } else {
+        setErrorMessage(data.error || 'Unable to subscribe right now. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error subscribing to newsletter:', err);
+      setErrorMessage('Unable to subscribe right now. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -35,6 +59,11 @@ export default function Footer({ onNavigateSection, setIsQuoteModalOpen }) {
               </div>
             ) : (
               <>
+                {errorMessage && (
+                  <div className="bg-rose-50 border border-rose-200 text-rose-700 text-xs p-3 rounded-lg font-medium w-full">
+                    {errorMessage}
+                  </div>
+                )}
                 <input
                   type="email"
                   required
@@ -45,9 +74,17 @@ export default function Footer({ onNavigateSection, setIsQuoteModalOpen }) {
                 />
                 <button
                   type="submit"
-                  className="bg-gold-500 hover:bg-gold-400 text-navy-900 font-bold text-xs px-5 py-2.5 rounded-lg transition-colors cursor-pointer shrink-0"
+                  disabled={isSubmitting}
+                  className="bg-gold-500 hover:bg-gold-400 text-navy-900 font-bold text-xs px-5 py-2.5 rounded-lg transition-colors cursor-pointer shrink-0 disabled:opacity-50 flex items-center gap-1.5"
                 >
-                  Subscribe
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      Subscribing...
+                    </>
+                  ) : (
+                    'Subscribe'
+                  )}
                 </button>
               </>
             )}
@@ -129,7 +166,7 @@ export default function Footer({ onNavigateSection, setIsQuoteModalOpen }) {
           </h4>
           <ul className="space-y-2 text-gray-300">
             <li>
-              <a href="/TMI 2025 New Catalog.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors flex items-center gap-1">
+              <a href="/final catalog.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold-400 transition-colors flex items-center gap-1">
                 <FileText className="w-3.5 h-3.5 text-gold-500" />
                 Download PDF Catalogue
               </a>
@@ -141,7 +178,7 @@ export default function Footer({ onNavigateSection, setIsQuoteModalOpen }) {
             </li>
             <li>
               <a href="#trust-section" onClick={() => onNavigateSection('trust')} className="hover:text-gold-400 transition-colors">
-                Krykard Care Service Program
+                Benzene Electricals Service Program
               </a>
             </li>
             <li>
@@ -166,19 +203,19 @@ export default function Footer({ onNavigateSection, setIsQuoteModalOpen }) {
             <div className="flex items-start gap-2">
               <MapPin className="w-4 h-4 text-gold-500 shrink-0 mt-0.5" />
               <span>
-                No. 5, Kumaran Street, Pazhavanthangal, Chennai - 600 114, Tamil Nadu, India
+                202 Yashodha Nilayam, 4th cross sri sai layout, Katgengalli Yelahanka, Bengaluru 560064, Karnataka, India
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-gold-500 shrink-0" />
-              <a href="tel:+914422340000" className="hover:text-gold-400">
-                +91 44 2234 0000
+              <a href="tel:+918123081712" className="hover:text-gold-400">
+                +91 8123081712
               </a>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-gold-500 shrink-0" />
-              <a href="mailto:sales@benzene-electricals.com" className="hover:text-gold-400">
-                sales@benzene-electricals.com
+              <a href="mailto:sheefa@acrasia.in" className="hover:text-gold-400">
+                sheefa@acrasia.in
               </a>
             </div>
           </div>

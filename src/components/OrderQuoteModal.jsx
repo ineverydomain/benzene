@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, FileText, Phone, Mail, User, Building, CheckCircle, Trash2, Send, ShieldCheck } from 'lucide-react';
+import { X, FileText, Phone, Mail, User, Building, CheckCircle, Trash2, Send, ShieldCheck, Loader2 } from 'lucide-react';
 
 export default function OrderQuoteModal({ isOpen, onClose, quoteList, onRemoveFromQuote, onClearQuote }) {
   const [phone, setPhone] = useState('');
@@ -7,25 +7,55 @@ export default function OrderQuoteModal({ isOpen, onClose, quoteList, onRemoveFr
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [notes, setNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedLeadId, setSubmittedLeadId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!phone.trim() || !email.trim()) {
       setErrorMessage('Please enter both your Mobile Number and Email Address.');
       return;
     }
     setErrorMessage('');
+    setIsSubmitting(true);
     
-    // Generate dummy lead reference ID
+    // Generate lead reference ID
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     const leadId = `BE-RFQ-2026-${randomNum}`;
-    setSubmittedLeadId(leadId);
-    setIsSubmitted(true);
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'rfq',
+          leadId,
+          name,
+          phone,
+          email,
+          company,
+          notes,
+          items: quoteList
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setSubmittedLeadId(leadId);
+        setIsSubmitted(true);
+      } else {
+        setErrorMessage(data.error || 'Submission failed. Please check details and try again.');
+      }
+    } catch (err) {
+      console.error('Error submitting inquiry:', err);
+      setErrorMessage('Unable to submit your enquiry right now. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleResetForm = () => {
@@ -260,10 +290,20 @@ export default function OrderQuoteModal({ isOpen, onClose, quoteList, onRemoveFr
 
               <button
                 type="submit"
-                className="w-full sm:w-auto bg-gold-500 hover:bg-gold-400 text-navy-900 font-bold px-8 py-3 rounded-lg text-xs flex items-center justify-center gap-2 cursor-pointer gold-glow shadow-md"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto bg-gold-500 hover:bg-gold-400 text-navy-900 font-bold px-8 py-3 rounded-lg text-xs flex items-center justify-center gap-2 cursor-pointer gold-glow shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-4 h-4" />
-                Submit Order Inquiry
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending Inquiry...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Submit Order Inquiry
+                  </>
+                )}
               </button>
             </div>
 

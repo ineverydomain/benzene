@@ -41,13 +41,13 @@ export default function Navbar({
 
           {/* Contact & Direct Quote Link */}
           <div className="flex items-center gap-5 text-gray-300">
-            <a href="tel:+914422340000" className="flex items-center gap-1.5 hover:text-gold-400 transition-colors">
+            <a href="tel:+918123081712" className="flex items-center gap-1.5 hover:text-gold-400 transition-colors">
               <Phone className="w-3.5 h-3.5 text-gold-500" />
-              <span>+91 44 2234 0000</span>
+              <span>+91 8123081712</span>
             </a>
-            <a href="mailto:sales@benzene-electricals.com" className="hidden sm:flex items-center gap-1.5 hover:text-gold-400 transition-colors">
+            <a href="mailto:sheefa@acrasia.in" className="hidden sm:flex items-center gap-1.5 hover:text-gold-400 transition-colors">
               <Mail className="w-3.5 h-3.5 text-gold-500" />
-              <span>sales@benzene-electricals.com</span>
+              <span>sheefa@acrasia.in</span>
             </a>
             <button 
               onClick={() => setIsQuoteModalOpen(true)}
@@ -109,7 +109,7 @@ export default function Navbar({
             onClick={() => onNavigateSection('trust')} 
             className="hover:text-gold-500 transition-colors cursor-pointer py-1"
           >
-            Krykard Care
+            Benzene Electricals
           </button>
           <button 
             onClick={() => onNavigateSection('footer')} 
@@ -195,7 +195,7 @@ export default function Navbar({
               onClick={() => { setIsMobileMenuOpen(false); onNavigateSection('trust'); }}
               className="text-left py-2 border-b border-navy-800 hover:text-gold-400 flex items-center justify-between"
             >
-              Krykard Care Support <ChevronRight className="w-4 h-4 text-gold-500" />
+              Benzene Electricals Support <ChevronRight className="w-4 h-4 text-gold-500" />
             </button>
           </div>
 
